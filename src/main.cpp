@@ -34,6 +34,7 @@
 #include "./apps/tools/time_config.h"
 #include "./apps/tools/water_level.h"
 #include "./overlays/overlays.h"
+#include "./apps/tools/ui_test.h"
 #if defined(GPS_EDITION)
 #include "./apps/main/map.h"
 #endif
@@ -106,6 +107,8 @@ void setup() {
   // Load config as early as possible, to ensure everyone can access it.
   OswConfig::getInstance()->setup();
   OswUI::getInstance()->setup(hal);
+
+  watchFaceSwitcher->registerApp(new OswAppUiTest());
 
   watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceDigital());
