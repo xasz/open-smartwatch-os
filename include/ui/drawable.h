@@ -11,6 +11,7 @@ class OswUiDrawable {
         ui = OswUI::getInstance();
         this->posX = posX;
         this->posY = posY;
+        backgroundColor = ui->getBackgroundColor();
     }
     bool needsRedraw(){return _needsRedraw;}
     void setBackground(uint16_t color){backgroundColor = color;}
@@ -31,7 +32,7 @@ class OswUiDrawable {
     uint16_t width = 0;
     uint16_t height = 0;
 
-    uint16_t backgroundColor;
+    uint16_t backgroundColor = rgb565(0, 0, 0);
     bool _needsRedraw = true;
 };
 

@@ -9,11 +9,19 @@ void OswUiListView::draw(ArduinoGraphics2DCanvas* c){
             selected = count -1;
         }
         
-        uint16_t offsetX = posX;
         uint16_t offsetY = posY;
 
         for(uint16_t i = 0 ; i < count ; i++){
-            drawables[i]->setPosX(offsetX);
+            
+            switch(alignment){
+                case Center:
+                    drawables[i]->setPosX(width / 2 - drawables[i]->getWidth()/2);
+                break;
+                case Left:
+                default:
+                    drawables[i]->setPosX(posX);
+                break;
+            }
             drawables[i]->setPosY(offsetY);
             drawables[i]->draw(c);
             offsetY += drawables[i]->getHeight();
@@ -29,4 +37,8 @@ void OswUiListView::calculate(ArduinoGraphics2DCanvas* c){
 void OswUiListView::add(OswUiDrawable* d){
   count++;
   drawables.push_back(d);
+}
+
+void OswUiListView::setAlignment(Alignment a){
+    alignment = a;
 }
