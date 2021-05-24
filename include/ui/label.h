@@ -11,7 +11,7 @@ class OswUiLabel : public OswUiComponent{
     void setText(char* text);
     void calculate(ArduinoGraphics2DCanvas* c);
     ~OswUiLabel(){};
-  private:
+  protected:
     char* text;
 };
 

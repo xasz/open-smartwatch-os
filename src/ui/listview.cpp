@@ -2,12 +2,6 @@
     
 void OswUiListView::draw(ArduinoGraphics2DCanvas* c){
     if(_needsRedraw){
-        if(selected < 0){
-            selected = 0;
-        }
-        if(selected >= count){
-            selected = count -1;
-        }
         
         uint16_t offsetY = posY;
 
@@ -34,11 +28,43 @@ void OswUiListView::calculate(ArduinoGraphics2DCanvas* c){
         drawables[i]->calculate(c);
     }
 }
-void OswUiListView::add(OswUiDrawable* d){
+void OswUiListView::add(OswUiComponent* d){
   count++;
   drawables.push_back(d);
 }
 
-void OswUiListView::setAlignment(Alignment a){
-    alignment = a;
+void OswUiListView::down(){
+    if(selected < count - 1){
+        select(selected + 1);
+    }else{
+        select(count - 1);
+    }    
+}
+
+void OswUiListView::up(){
+    if(selected > 0){
+        select(selected - 1);
+    }else{
+        select(0);
+    }    
+}
+
+void OswUiListView::select(uint16_t index){
+    if(selected < 0){
+        selected = 0;
+    }
+    if(selected >= count){
+        selected = count -1;
+    }
+    drawables[selected]->unfocus(); 
+    selected = index;
+    drawables[selected]->focus(); 
+    Serial.println(selected);
+    _needsRedraw = true;
+}
+
+void OswUiListView::setWidthToAllChilds(){
+    for(uint16_t i = 0 ; i < count ; i++){
+        setWidth(width);
+    }
 }

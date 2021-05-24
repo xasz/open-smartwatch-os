@@ -1,29 +1,27 @@
 #ifndef OSW_UI_LISTVIEW_H
 #define OSW_UI_LISTVIEW_H
 
-#include "ui/drawable.h"
+#include "ui/uicomponent.h"
 #include <vector>
 
-enum Alignment{
-  Center,
-  Left
-};
 
-class OswUiListView : public OswUiDrawable{
+class OswUiListView : public OswUiComponent{
   public:
-    OswUiListView(uint16_t posX, uint16_t posY) : OswUiDrawable(posX, posY){};
+    OswUiListView(uint16_t posX, uint16_t posY) : OswUiComponent(posX, posY){};
     virtual void draw(ArduinoGraphics2DCanvas* c);
     virtual void calculate(ArduinoGraphics2DCanvas* c);
-    void add(OswUiDrawable* d);
-    void setAlignment(Alignment a);
+    void add(OswUiComponent* d);
+    void up();
+    void down();
+    void select(uint16_t index);
+    void setWidthToAllChilds();
     ~OswUiListView(){};
     
   private:
-    std::vector<OswUiDrawable*> drawables;
-    int16_t count = 0;
-    int16_t selected = 0;
-    int16_t visibleElements = 3;
-    Alignment alignment;
+    std::vector<OswUiComponent*> drawables;
+    uint16_t count = 0;
+    uint16_t selected = 0;
+    uint16_t visibleElements = 3;
 };
 
 #endif

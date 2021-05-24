@@ -20,4 +20,5 @@ void OswUiLabel::calculate(ArduinoGraphics2DCanvas* c){
 
 void OswUiLabel::setText(char* text){
     this->text = text;
+    _needsRedraw = true;
 }

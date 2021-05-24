@@ -5,7 +5,7 @@
 
 #include "osw_app.h"
 #include "./ui/listview.h"
-#include "./ui/label.h"
+#include "./ui/button.h"
 
 class OswAppUiTest : public OswApp {
  public:
@@ -15,7 +15,12 @@ class OswAppUiTest : public OswApp {
   void stop(OswHal* hal);
   ~OswAppUiTest(){};
  private:
- OswUiListView* listView;
+  OswUiListView* listView;
+  OswUiButton* btnLorem;
+  OswUiButton* btnIpsum;
+  OswUiButton* btnDolor ;
+  OswUiButton* btnSit;
+  OswUiButton* btnAmet;
 };
 
 #endif
