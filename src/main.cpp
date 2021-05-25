@@ -52,7 +52,7 @@ uint16_t mainAppIndex = 0;  // -> wakeup from deep sleep returns to watch face (
 RTC_DATA_ATTR uint16_t watchFaceIndex = 0;
 
 OswAppSwitcher *mainAppSwitcher = new OswAppSwitcher(BUTTON_1, LONG_PRESS, true, true, &mainAppIndex);
-OswAppSwitcher *watchFaceSwitcher = new OswAppSwitcher(BUTTON_1, SHORT_PRESS, false, false, &watchFaceIndex);
+OswAppSwitcher *watchFaceSwitcher = new OswAppSwitcher(BUTTON_1, LONG_PRESS, false, false, &watchFaceIndex);
 
 #include "esp_task_wdt.h"
 TaskHandle_t Core2WorkerTask;
@@ -113,7 +113,8 @@ void setup() {
   watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceDigital());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceBinary());
-  mainAppSwitcher->registerApp(watchFaceSwitcher);
+  //mainAppSwitcher->registerApp(watchFaceSwitcher);
+  mainAppSwitcher->registerApp(new OswAppUiTest());
 
   hal->setupPower();
   hal->setupFileSystem();

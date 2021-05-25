@@ -1,18 +1,16 @@
 
 #include "./apps/tools/ui_test.h"
-#include "./ui/button.h"
 
 
 
 void OswAppUiTest::setup(OswHal* hal) {
     listView = new OswUiListView(0,0);
-    listView->setWidth(hal->gfx()->getWidth());
-    listView->setHeight(hal->gfx()->getHeight());
 
     btnLorem = new OswUiButton(0,0,"Lorem");
     listView->add(btnLorem);
 
     btnIpsum = new OswUiButton(0,0,"Ipsum");
+    btnIpsum->setTextSize(3);
     listView->add(btnIpsum);
     
     btnDolor = new OswUiButton(0,0,"dolor");
@@ -23,27 +21,37 @@ void OswAppUiTest::setup(OswHal* hal) {
 
     btnAmet = new OswUiButton(0,0,"amet");
     listView->add(btnAmet);
+    
+    slider = new OswUiSlider(0,0);
+    listView->add(slider);
+    
 
     listView->setAlignment(Center);
-    listView->setWidthToAllChilds();
+    listView->setWidth(hal->gfx()->getWidth());
+    listView->setHeight(hal->gfx()->getHeight());
+    listView->autoSizeChilds(hal->getCanvas());
+    listView->setChildsAlignemnt(Center);
+    listView->maxWithChilds();
+
 }
 
 void OswAppUiTest::loop(OswHal* hal) {
-    if(hal->btnHasGoneUp(BUTTON_3)){
-        listView->up();
-    }
-
-    if(hal->btnHasGoneUp(BUTTON_2)){
-        listView->down();
-    }
 
     if(btnAmet->isClicked()){
-        Serial.println("Amet");
+        Serial.println("Click Amet");
     }
 
+    if(btnSit->isClicked()){
+        Serial.println("Click sit");
+    }
+    
+    if(slider->hasChanged()){
+        Serial.print(slider->getValue());
+        Serial.println(" New slider value ");
+    }
 
-    listView->calculate(hal->getCanvas());
     listView->draw(hal->getCanvas());
+    listView->handleInput(hal);
     hal->requestFlush();
 }
 

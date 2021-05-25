@@ -9,3 +9,11 @@ void OswUiButton::draw(ArduinoGraphics2DCanvas* c){
     } 
     OswUiLabel::draw(c);
 }
+
+bool OswUiButton::handleInput(OswHal* hal){
+    if(hal->btnHasGoneUp(BUTTON_1)){
+        click();
+        return true;
+    }
+    return false;
+}

@@ -13,10 +13,11 @@ class OswUiComponent : public OswUiDrawable{
   public:
     OswUiComponent(uint16_t posX, uint16_t posY) : OswUiDrawable(posX, posY){};
     virtual void draw(ArduinoGraphics2DCanvas* c);
-    virtual void calculate(ArduinoGraphics2DCanvas* c);
+    virtual bool handleInput(OswHal* hal){};
     void focus(){_hasFocus = true;_needsRedraw = true;};
     void unfocus(){_hasFocus = false;_needsRedraw = true;};
     bool hasFocus(){return _hasFocus;};
+    virtual void clamp(ArduinoGraphics2DCanvas* c){};
     void setAlignment(Alignment a){
       alignment = a;
     }

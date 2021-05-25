@@ -15,7 +15,6 @@ class OswUiDrawable {
     }
     bool needsRedraw(){return _needsRedraw;}
     void setBackground(uint16_t color){backgroundColor = color;}
-    virtual void calculate(ArduinoGraphics2DCanvas* c){}
     virtual void draw(ArduinoGraphics2DCanvas* c);
     void setWidth(uint16_t width){this->width = width;}
     void setHeight(uint16_t height){this->height = height;}

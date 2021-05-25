@@ -1,6 +1,8 @@
  #include "ui/listview.h"   
     
 void OswUiListView::draw(ArduinoGraphics2DCanvas* c){
+
+
     if(_needsRedraw){
         
         uint16_t offsetY = posY;
@@ -9,28 +11,32 @@ void OswUiListView::draw(ArduinoGraphics2DCanvas* c){
             
             switch(alignment){
                 case Center:
-                    drawables[i]->setPosX(width / 2 - drawables[i]->getWidth()/2);
+                    compoments[i]->setPosX(width / 2 - compoments[i]->getWidth()/2);
                 break;
                 case Left:
                 default:
-                    drawables[i]->setPosX(posX);
+                    compoments[i]->setPosX(posX);
                 break;
             }
-            drawables[i]->setPosY(offsetY);
-            drawables[i]->draw(c);
-            offsetY += drawables[i]->getHeight();
+            compoments[i]->setPosY(offsetY);
+            compoments[i]->draw(c);
+            offsetY += compoments[i]->getHeight();
         }
+    }else{
+        //Always draw the current selected for instand update
+        compoments[selected]->draw(c);
     }
     _needsRedraw = false;
 }
-void OswUiListView::calculate(ArduinoGraphics2DCanvas* c){
-    for(uint16_t i = 0 ; i < count ; i++){
-        drawables[i]->calculate(c);
-    }
-}
+
+
 void OswUiListView::add(OswUiComponent* d){
   count++;
-  drawables.push_back(d);
+  if(count == 1){
+      d->focus();
+      selected = 0;
+  }
+  compoments.push_back(d);
 }
 
 void OswUiListView::down(){
@@ -56,15 +62,40 @@ void OswUiListView::select(uint16_t index){
     if(selected >= count){
         selected = count -1;
     }
-    drawables[selected]->unfocus(); 
+    compoments[selected]->unfocus(); 
     selected = index;
-    drawables[selected]->focus(); 
-    Serial.println(selected);
+    compoments[selected]->focus(); 
     _needsRedraw = true;
 }
 
-void OswUiListView::setWidthToAllChilds(){
+void OswUiListView::maxWithChilds(){
     for(uint16_t i = 0 ; i < count ; i++){
-        setWidth(width);
+        compoments[i]->setWidth(width); 
     }
+}
+
+void OswUiListView::autoSizeChilds(ArduinoGraphics2DCanvas* c){
+    for(uint16_t i = 0 ; i < count ; i++){
+        compoments[i]->clamp(c); 
+    }
+}
+
+void OswUiListView::setChildsAlignemnt(Alignment a){
+    for(uint16_t i = 0 ; i < count ; i++){
+        compoments[i]->setAlignment(a);
+    }
+}
+
+bool OswUiListView::handleInput(OswHal* hal){
+
+    if(!compoments[selected]->handleInput(hal)){
+        if(hal->btnHasGoneUp(BUTTON_3)){
+            up();
+        }
+
+        if(hal->btnHasGoneUp(BUTTON_2)){
+            down();
+        }
+    }
+    return false;
 }

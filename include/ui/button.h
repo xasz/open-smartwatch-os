@@ -8,12 +8,13 @@ class OswUiButton : public OswUiLabel{
     OswUiButton(uint16_t posX, uint16_t posY) : OswUiLabel(posX, posY){};
     OswUiButton(uint16_t posX, uint16_t posY, char* text) : OswUiLabel(posX, posY, text){};
     void draw(ArduinoGraphics2DCanvas* c) override;
+    bool handleInput(OswHal* hal) override;
     bool isClicked(){bool r = clicked; clicked = false; return r;};
-    bool click(){clicked = true;};
+    void click(){clicked = true; onClick();};
+    virtual void onClick(){};
     ~OswUiButton(){};
   private:
-   void* listener;
-   bool clicked;
+    bool clicked = false;
 };
 
 #endif

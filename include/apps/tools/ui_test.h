@@ -6,6 +6,7 @@
 #include "osw_app.h"
 #include "./ui/listview.h"
 #include "./ui/button.h"
+#include "./ui/slider.h"
 
 class OswAppUiTest : public OswApp {
  public:
@@ -21,6 +22,7 @@ class OswAppUiTest : public OswApp {
   OswUiButton* btnDolor ;
   OswUiButton* btnSit;
   OswUiButton* btnAmet;
+  OswUiSlider* slider;
 };
 
 #endif
